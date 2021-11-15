@@ -1,5 +1,5 @@
 ---
-title: "CSC8631 Assignment Report"
+title: "csc8631 assignment report"
 author: "D Walmsley"
 date: "15/11/2021"
 output: pdf_document
