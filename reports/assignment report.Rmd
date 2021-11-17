@@ -1,6 +1,6 @@
 ---
 title: "CSC8631 assignment report"
-author: "D Walmsley"
+author: "D Walmsley, C1053068"
 date: "15/11/2021"
 output: pdf_document
 ---
