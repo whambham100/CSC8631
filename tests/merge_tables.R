@@ -10,4 +10,3 @@ videostats_yr5 = cyber.security.7_video.stats %>%
   mutate(rep = "rep 5") 
 
 combined_videostats = rbind(videostats_yr1, videostats_yr2, videostats_yr3, videostats_yr4, videostats_yr5)
-

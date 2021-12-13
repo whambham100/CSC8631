@@ -30,8 +30,7 @@ plot(pressure)
 Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
 
 ## Introduction
-The purpose of this report is to analyse data collected from an online course ran by Futurelearn (www.futurelearn.com) that is ran in collaboration with Newcastle University.  The report will demonstrate findings from a data set across 7 runs provided by the the university.  Using the CRISP-DM methodology to provide a clear structure to the analysis, this report will be broken into sections that are the key steps of the CRISP DM process.  The sections are *Business Understanding, Data Understanding, Data preparation, Modelling, Evaluation and Development.*
-
+The purpose of this report is to analyse data collected from an online course ran by Futurelearn (www.futurelearn.com) that is ran in collaboration with Newcastle University.  The report will demonstrate findings from a data set across 7 runs provided by the the university.  Using the CRISP-DM methodology to provide a clear structure to the analysis. This report will be broken into sections that are the key steps of the CRISP DM process.  The sections are _Business Understanding, Data Understanding, Data preparation, Modelling, Evaluation and Development._
 
 ## I.Business Understanding
 The Business Understanding phase focuses on understanding the objectives and requirements of the project. Aside from the third task, the three other tasks in this phase are foundation project management activities that are universal to most projects:
@@ -50,6 +49,8 @@ Select technologies and tools and define detailed plans for each project phase.
 
 ## II. Data Understanding
 Next is the Data Understanding phase. Adding to the foundation of Business Understanding, it drives the focus to identify, collect, and analyze the data sets that can help you accomplish the project goals. This phase also has four tasks:
+
+At first glance the data provided from the university is taken over seven years of running the course or runs. Data provided from runs one and two consist of files giving data on enrolments, 
 
 ### Collect initial data: 
 Acquire the necessary data and (if necessary) load it into your analysis tool.
