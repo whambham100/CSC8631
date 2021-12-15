@@ -33,30 +33,37 @@ Note that the `echo = FALSE` parameter was added to the code chunk to prevent pr
 The purpose of this report is to analyse data collected from an online course ran by Futurelearn (www.futurelearn.com) that is ran in collaboration with Newcastle University.  The report will demonstrate findings from a data set across 7 runs provided by the the university.  Using the CRISP-DM methodology to provide a clear structure to the analysis. This report will be broken into sections that are the key steps of the CRISP DM process.  The sections are _Business Understanding, Data Understanding, Data preparation, Modelling, Evaluation and Development._
 
 ## I.Business Understanding
-The Business Understanding phase focuses on understanding the objectives and requirements of the project. Aside from the third task, the three other tasks in this phase are foundation project management activities that are universal to most projects:
 
-### Determine business objectives: 
-You should first “thoroughly understand, from a business perspective, what the customer really wants to accomplish.” (CRISP-DM Guide) and then define business success criteria.
+Newcastle University is a Russell group university offering high quality courses to students from around the world.  Working with online partner Future Learn, the university are offering an online cyber security course. The course provider must show awareness of factors impacting on cohort recruitment such as  demographics, age, and gender. The provider must review key performance indicators and analyse how appealing the course is to specific user groups.  Course retention and understanding of students motive to enroll must be evaluated. In addition the provider must review  barriers and challenges that sub groups of the cohort have experienced and how this may have prevented them completing the course. This will allow the provider to address these issues in future and develop a sustainable product.  Academic outcomes of students are of interest to the course providers as this allows them to see what resources are having the greatest impact on learning but also allows them to identify areas where improved resources would impact on student outcomes. Finally the university must consider how it could keep up with changes in new technology and how students access the content provided. Accessibility is a key factor and how the provider can ensure a course or product is more accessible to a wider audience, encouraging a greater enrolment globally. 
 
-### Assess situation: 
-Determine resources availability, project requirements, assess risks and contingencies, and conduct a cost-benefit analysis.
+The data files from 7 runs or repetitions of the course have been acquired.  These files will be analysed to determine key links and trends within the data.  The strength of the data collected will determine the strength of potential outcomes of this project.  The data from the repetitions or reps needs to have similarities to ensure that files and scenarios are comparable.  Clear identifiable relationships between the data files will help construct stronger lines of enquiry. Thsi will lead to outputs that will have a greater impact on informing future decision making within the process. From the third course rep information is included about video resources used within the course material and how and where the videos were accessed. Although this video data was not accessible for reps one and two this may be a way to compare if video files have had an impact since the introduction in rep three of the course. R scripts will be written within R studio software package to ensure that any work undertaken can be easily reproduced.
 
-### Determine data mining goals: 
-In addition to defining the business objectives, you should also define what success looks like from a technical data mining perspective.
+This project will look to meet the aims and goals set out in the business objectives.  By exploring the data the intention of this project is to identify possible links between the introduction of video resources and the completion of the course. Is it possible to identify a groups of students who are more likely to complete the course and is there a clear reason for this?  Are there clear indications why certain students fully complete the course or actually drop out of the course? By using the data to identify clear strengths and weaknesses of the course, this should inform decision making on what resources need strengthening or where to better support students in order to improve retention and academic outcomes. 
 
-### Produce project plan: 
-Select technologies and tools and define detailed plans for each project phase.
+R scripts will be used in order to clean and collate data.  The use of R language allows the data not only cleaned but also means that the data can be displayed in clear visual formats that support what large datasets are saying.  The R scripts will be accessed through R studio software that allows the scripts to be stored within a Project Template structure that means managing and accessing scripts is both organised and accessible.  R studio then allows these scripts, visual data representations and charts to be merged together into a report that can be exported as a PDF file format that can be easily distributed. 
+A key success criteria of this project is reproducibility and the CrispDM methodology gives a clear structure to the process and reproduction of the work taken place within the project.  This methodology will be structured through the Project Template file structure to ensure that other users could replicate the work that had been undertaken.
+
+A Gitlog will be included as part of the project to show version control techniques and ensure that changes to the work are recorded at regular intervals in the event of errors occurring.  Version control allows all work to be rolled back to staged points in time. 
+
 
 ## II. Data Understanding
-Next is the Data Understanding phase. Adding to the foundation of Business Understanding, it drives the focus to identify, collect, and analyze the data sets that can help you accomplish the project goals. This phase also has four tasks:
 
-At first glance the data provided from the university is taken over seven years of running the course or runs. Data provided from runs one and two consist of files giving data on enrolments, 
+There are 53 .csv files provided by the university, spreading across seven repetitions of the course.  The files all start with the prefix cyber.security then the number of the repetition of the course (cyber.security.1, cyber.security.2 etc).  These are then split into eight possible datasets in the final five repetitions of the course and only seven possible datasets from the first two repetitions.  This is because there is no "videostats" files until repetition 3 onwards. The files provided by the university are as follows:
 
-### Collect initial data: 
-Acquire the necessary data and (if necessary) load it into your analysis tool.
+|       Archetype survey responses
+|       Enrolments
+|       Leaving survey responses
+|       Question responses
+|       Step activity
+|       Team members
+|       Video stats
+|       Weekly sentiment survey responses
+
 
 ### Describe data: 
 Examine the data and document its surface properties like data format, number of records, or field identities.
+
+
 
 ### Explore data: 
 Dig deeper into the data. Query it, visualize it, and identify relationships among the data.
@@ -67,7 +74,7 @@ How clean/dirty is the data? Document any quality issues.
 ## III. Data Preparation
 A common rule of thumb is that 80% of the project is data preparation.
 
-This phase, which is often referred to as “data munging”, prepares the final data set(s) for modeling. It has five tasks:
+This phase, which is often referred to as “data munging”, prepares the final data set(s) for modelling. It has five tasks:
 
 ## Select data: Determine which data sets will be used and document reasons for inclusion/exclusion.
 
