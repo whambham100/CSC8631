@@ -1,0 +1,1 @@
+totalviews_allreps = tapply(all_videostats$total_views, all_videostats$title, FUN=sum)
