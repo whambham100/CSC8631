@@ -23,7 +23,7 @@ The purpose of this report is to analyse data collected from an online course ra
 
 ## I.Business Understanding
 
-Newcastle University is a Russell group university offering high quality courses to students from around the world.  Working with online partner Future Learn, the university are offering an online cyber security course. The course provider must show awareness of factors impacting on cohort recruitment such as  demographic, age, and gender. The provider must review key performance indicators and analyse how appealing the course is to specific user groups.  Course retention and understanding of students motive to enroll must be evaluated. In addition the provider must review  barriers and challenges that sub groups of the cohort have experienced and how this may have prevented them completing the course. This will allow the provider to address issues in future and develop a sustainable product.  Academic outcomes of students are of interest to the course providers as this allows them to identify what resources are having the greatest impact on learning, but also allows them to identify areas where improved resources would impact on student outcomes. Finally the university must consider how it could keep up with changes in new technology and how students access the content provided. Accessibility is a key factor and how the provider can ensure a course or product is more accessible to a wider audience, encouraging a greater enrolment globally. 
+Newcastle University is a Russell group university offering high quality courses to students from around the world.  Working with online partner Future Learn, the university are offering an online cyber security course. The course provider must show awareness of factors impacting on cohort recruitment such as  demographic, age, and gender. The provider must review key performance indicators and analyse how appealing the course is to specific user groups.  Course retention and understanding of students motive to enrol must be evaluated. In addition the provider must review  barriers and challenges that sub groups of the cohort have experienced and how this may have prevented them completing the course. This will allow the provider to address issues in future and develop a sustainable product.  Academic outcomes of students are of interest to the course providers as this allows them to identify what resources are having the greatest impact on learning, but also allows them to identify areas where improved resources would impact on student outcomes. Finally the university must consider how it could keep up with changes in new technology and how students access the content provided. Accessibility is a key factor and how the provider can ensure a course or product is more accessible to a wider audience, encouraging a greater enrolment globally. 
 
 The data files from 7 runs or repetitions of the course have been acquired.  These files will be analysed to determine key links and trends within the data.  The strength of the data collected will determine the strength of potential outcomes of this project.  The data from the repetitions or reps needs to have similarities to ensure that files and scenarios are comparable.  Clear identifiable relationships between the data files will help construct stronger lines of enquiry. This will lead to outputs that will have a greater impact on informing future decision making within the process. From the third course rep information is included about video resources used within the course material and how and where the videos were accessed. Although this video data was not accessible for reps one and two, this may be a way to compare if video files have had an impact since their introduction in rep three of the course. R scripts will be written within R studio software package to ensure that any work undertaken can be easily reproduced.
 
@@ -36,7 +36,7 @@ A Gitlog will be included as part of the project to show version control techniq
 
 ## II. Data Understanding
 
-There are 53 .csv files provided by the university, spread across seven repetitions of the course.  The files all start with the prefix cyber.security then the number of the repetition of the course (cyber.security.1, cyber.security.2 etc).  These are then split into eight possible datasets in the final five repetitions of the course and only seven possible datasets from the first two repetitions.  This is because there is no "videostats" files until repetition 3 onwards. The files provided by the university are as follows:
+There are 53 .csv files provided by the university, spread across seven repetitions of the course.  The files all start with the prefix cyber.security then the number of the repetition of the course (cyber.security.1, cyber.security.2 etc.).  These are then split into eight possible datasets in the final five repetitions of the course and only seven possible datasets from the first two repetitions.  This is because there is no "videostats" files until repetition 3 onwards. The files provided by the university are as follows:
 
 |       Archetype survey responses
 |       Enrolments
@@ -47,9 +47,6 @@ There are 53 .csv files provided by the university, spread across seven repetiti
 |       Video stats
 |       Weekly sentiment survey responses
 
-
-### Describe data: 
-Examine the data and document its surface properties like data format, number of records, or field identities.
 
 Unfortunately nine of the data files included no data within the files, this is a weakness in the data collection process.  These files were:
 
@@ -190,65 +187,174 @@ fully_participated_learners_qrespones = left_join(enrolments_fully_part, qrespon
 ```{r}
 glimpse(fully_participated_learners_qrespones_clean)
 ```
+The final data files that were combined were the video stats files.  This was to look for trends in how the video files are watched over the 5 reps in that the video files were included.  The combined video stats table is grouped by repetition but could also be linked to other tables using the rep column as a primary key.
 
-### Format data: 
-Re-format data as necessary. For example, you might convert string values that store numbers to numeric values so that you can perform mathematical operations.
+```{r}
+glimpse(combined_videostats)
+```
+The mean number of views for each video clip was added to the combined video stats table to give statistical analysis and a new table was created.
 
+```{r}
+glimpse(combined_videostats_mean)
+```
 ## IV. Modeling
 What is widely regarded as data science’s most exciting work is also often the shortest phase of the project.
 
-Here you’ll likely build and assess various models based on several different modeling techniques. This phase has four tasks:
+Here you’ll likely build and assess various models based on several different modelling techniques. This phase has four tasks:
+
+Firstly a comparison of total students enrolled over the seven repetitions and the students who have clearly completed the course.  
+
+```{r, echo=FALSE}
+print(learnerids_allwithpercentages)
+```
+The table above was used to calculate the percentage increase or decrease in enrolments when compared to the following year. In the first two years that the course was ran the number of enrolments decreased by close to half when compared to the previous year, although there was an 18% increase in the fourth repetition.  Could this potentially be linked to the introduction of supporting videos in the third repetition of the course.  
+
+After cleaning the data to show only students who had completed the course, the graph below shows that there was again a huge decline (-98%) in the students who fully completed the course in repetition two compared to the previous year.  However after the introduction of the video materials in repetition three, there was a clear increase in the number of students who managed to fully complete the course. In repetition three there is an increase of 66.67% of students fully completing the course and a 201.82% increase in repetition four based on the previous years.
+
+```{r, echo=FALSE}
+print(learnerids_completedwithpercentages)
+```
+
+```{r, figures-side, fig.show='hold', out.width="50%", echo =FALSE}
+ggplot(learnerids_allwithpercentages, label = "count")+
+  geom_line(aes(x = factor(rep), y = n), colour="blue", group = 1,)+
+  geom_point(aes(x = factor(rep), y = n,))+
+  geom_text(aes(x = factor(rep), y = n, label = paste0(round(n,4),"")), size=3, vjust = 1.5)+
+  labs(x = "Repetition of Course", y = "Total Number of Enrolments", title = "Number of Students Enrolled on Course per Repetition")+
+  theme_minimal()
+
+ggplot(learnerids_completedwithpercentages,)+
+  geom_line(aes(x = factor(rep), y = n), colour="red", group = 1,)+
+  geom_point(aes(x = factor(rep), y = n,))+
+  geom_text(aes(x = factor(rep), y = n, label = paste0(round(n,4),"")), size=3, vjust = 1.5)+
+  labs(x = "Repetition of Course", y = "Total Number of Enrolments", title = "Number of Students Who Fully Completed the Course per Repetition")+
+  theme_minimal()
+
+ggplot(compare_enrolments_percent_full, aes(x=factor(rep), y = n.y))+
+  geom_line(aes(x = factor(rep), y = n.y), colour="red", group = 1,)+
+  geom_point(aes(x = factor(rep), y = n.y,))+
+  geom_line(aes(x = factor(rep), y = n.x), colour="blue", group = 1,)+
+  geom_point(aes(x = factor(rep), y = n.x,))+
+  labs(x = "Repetition of Course", y = "total number of students", title = "Comparison of students enrolled on course and students completing the course")+
+  theme_minimal()
+
+
+
+```
+What was clear from the data was the percentage of students fully participating in the course was very low.  The table below show the percentage rates for each repetition of the course.
+
+```{r, echo =FALSE}
+print(compare_enrolments_percent_full)
+
+```
+In year 1 only 12.51 percent of students fully complete the course.  This was the highest fully completed rate for the seven repetitions of the course.  With a mean pass rate of
 
 ```{r}
-ggplot(data = videostats_yr1, mapping = aes(x = video_duration, y = total_views)) +
-geom_point(aes(colour = video_duration)) +
-ggtitle("Video Duration and Total Views")
+mean(compare_enrolments_percent_full$percentage.rate)%>%
+  scales::percent(compare_enrolments_percent_full$percentage.rate ,accuracy = 0.01, scale = 1, prefix = "", suffix = "%", big.mark = " ", decimal.mark = ".", trim = TRUE, )
+```
+The quality of the data makes it difficult to gather an accurate mean pass rate for the course. To ensure that there is more accurate approach only the students who have a fully completed enrolment form, with no unknowns or NA's will be used.  Below is a table containing all the students details that enrolled on the course and fully completed.
+
+```{r, echo = FALSE}
+glimpse(enrolments_fully_part)
+
+
+```
+The number of fields containing missing data is:
+```{r, echo = FALSE }
+sum(enrolments_fully_part$gender == "Unknown") + sum(enrolments_fully_part$age_range == "Unknown") +
+sum(enrolments_fully_part$highest_education_level == "Unknown") +
+sum(enrolments_fully_part$employment_status== "Unknown") + sum(enrolments_fully_part$employment_area == "Unknown")
+```
+When the missing data was removed there was 377 students where all data had been collected at the point of entry.  What is also noticeable at this point is there was no fully complete enrolment data in repetition five of the course. This added to the low numbers in repetitions two, three, four, six and seven indicate that the enrolments process needs strengthening. 
+```{r, echo=FALSE}
+glimpse(enrolments_fully_part_all_data)
+```
+
+```{r, echo=FALSE}
+ggplot(tallied_gender_full_enroll, aes(x=factor(rep), y = n, colour = gender, group = gender))+
+  geom_line()+geom_point()+
+  geom_text(aes(x = factor(rep), y = n, label = paste0(round(n,4),"")), size=3, vjust = 1.5, hjust = -1.5)+
+  labs(x = "Repetition of Course", y = "Total Number of Students who Completed Course", title = "Number of students with full enrollment data who had completed the course by gender")+
+  theme_minimal()
+  
+
+```
+```{r, echo = TRUE}
+Rep <- c("rep1","rep2","rep3","rep4","rep6","rep7")
+Male <- c(201, 4, 13, 12, 4, 8)
+Female <-c(124, 1, 3, 4, 4, 2)
+NonBinary <-c(1, 0, 0, 0, 0, 0)
+total <-c(Male + Female +NonBinary)
+Passrate_male<-c(Male/total)
+Passrate_female<-c(Female/total)
+Passrate_NonBinary<-c(NonBinary/total)
+Male_passrate_percentage =  scales::percent(Male/total, accuracy = 0.01, scale = 100, prefix = "", suffix = "%", big.mark = " ", decimal.mark = ".", trim = TRUE, )
+Female_passrate_percentage =  scales::percent(Female/total, accuracy = 0.01, scale = 100, prefix = "", suffix = "%", big.mark = " ", decimal.mark = ".", trim = TRUE, )
+Nonbinary_passrate_percentage =  scales::percent(NonBinary/total, accuracy = 0.01, scale = 100, prefix = "", suffix = "%", big.mark = " ", decimal.mark = ".", trim = TRUE, )
+
+gender_all_enrolment_data_passrate <- data.frame(Male, Female, NonBinary, total, Passrate_male, Passrate_female, Passrate_NonBinary, Male_passrate_percentage, Female_passrate_percentage, Nonbinary_passrate_percentage)
 
 
 ```
 
+```{r, echo=FALSE}
+print(gender_all_enrolment_data_passrate)
+```
+It is now possible to calculate the mean pass rate using only the data from students who had fully completed the course with fully completed enrolment data.
+The mean scores below show a far better pass rate than before.
 
-### Select modeling techniques: 
-Determine which algorithms to try (e.g. regression, neural net).
+```{r, echo = FALSE}
+mean(gender_all_enrolment_data_passrate$Passrate_male)%>%
+  scales::percent(compare_enrolments_percent_full$percentage.rate ,accuracy = 0.01, scale = 100, prefix = "", suffix = "%", big.mark = " ", decimal.mark = ".", trim = TRUE, )
 
-### Generate test design: 
-Pending your modeling approach, you might need to split the data into training, test, and validation sets.
+mean(gender_all_enrolment_data_passrate$Passrate_female)%>%
+  scales::percent(compare_enrolments_percent_full$percentage.rate ,accuracy = 0.01, scale = 100, prefix = "", suffix = "%", big.mark = " ", decimal.mark = ".", trim = TRUE, )
 
-### Build model: 
-As glamorous as this might sound, this might just be executing a few lines of code like “reg = LinearRegression().fit(X, y)”.
+mean(gender_all_enrolment_data_passrate$Passrate_NonBinary)%>%
+  scales::percent(compare_enrolments_percent_full$percentage.rate ,accuracy = 0.01, scale = 100, prefix = "", suffix = "%", big.mark = " ", decimal.mark = ".", trim = TRUE, )
+```
 
-### Assess model: 
-Generally, multiple models are competing against each other, and the data scientist needs to interpret the model results based on domain knowledge, the pre-defined success criteria, and the test design.
 
-Although the CRISP-DM guide suggests to “iterate model building and assessment until you strongly believe that you have found the best model(s)”,  in practice teams should continue iterating until they find a “good enough” model, proceed through the CRISP-DM lifecycle, then further improve the model in future iterations. 
+Data was provided at repetition three on the video materials attached to the course.  Below is a graph showing the amount of views each video had on each repetition.
+
+```{r, echo=FALSE}
+
+ggplot(combined_videostats, aes(x=factor(step_position), y = total_views, colour = rep, group = rep))+
+  geom_line()+geom_point()+
+  labs(x = "Video Step Number", y = "Total Number of Views", title = "Views of Video")+
+  theme_minimal()
+```
+What is clear from the graph is that the videos follow an almost identical trend each time the course is ran.  As shown earlier in the report there is a decline in the number of enrolments each year with a slight rise at repetition 4.  The video data follows that trend with repetitions 4 and 5 having more total video views than other repetitions.
+
+Where there are declines in the viewing figures, could this be in relation to the length of the video clips.  
+
+```{r, echo=FALSE,}
+ggplot(combined_videostats, aes(x=video_duration, y = total_views, colour = rep, group = rep))+
+  geom_line()+geom_point()+
+  labs(x = "Length of Video", y = "Total Number of Views", title = "Video Length compared to Number of Views")+
+  theme_minimal()
+```
+The above graph shows there is no correlation between video length and number of views.  The above graph shows to clear spikes one at one of the shorter video lengths and one at a longer video lengths.  The lines like the previous graph follow an almost identical trend.
+
+
+The video stats data also shows how many of the videos were watched fully or viewed for 100% of the duration.  Below is a graph showing the videos viewed to 100% of the duration.
+
+```{r, echo=FALSE}
+ggplot(combined_videostats, aes(x= factor(step_position), y = viewed_onehundred_percent, colour = rep, group = rep))+
+  geom_line()+geom_point()+
+  labs(x = "Video Step", y = "percentage", title = "Videos viewed for full duration")+
+  theme_minimal()
+```
+From the above graph the video at step position 2.1 (Welcome to Week 2: payment security) has the highest percentage of people viewing the full video, with 3 of the 5 repetitions having over 70% of viewers viewing it for the full duration.  The video at step 3.14 (Exploring security: biometric authentication) has the poorest viewing percentage for the full duration.  As in all 5 reps the video was only viewed fully by 40% or less of the total views.
 
 ## V. Evaluation
-Whereas the Assess Model task of the Modeling phase focuses on technical model assessment, the Evaluation phase looks more broadly at which model best meets the business and what to do next. This phase has three tasks:
+This project initially set out to find out about learners enrolling on the course and the success and retention rates on the course.  As well as looking for links to how the supporting video materials impacted on learning and if any improvements were required.  The first thing that was clear was a decline in enrolments from the first year of the course being run.  Finding a reasoning for this was difficult because of the gaps in the data.  Across the 7 repetitions of the course there was only 377 learners that had full enrolment data as well as a fully completed the course date on their records.  This made gaining an accurate conclusion on the completion of the course by any demographic difficult but did signal that a far more robust enrolment system must be introduced.  The report was able to look at completion rates on the course by gender, once the data was cleaned. These result show that there was a higher rate of males completing the course than other genders.  This could be further investigated to look at links between gender and age or gender and education level to test if there was a trend in the type of person that is most likely to enrol on the course.  This further investigation would further all the university to target a wider audience but also look into why a certain demographic are more likely to be successful on the course.
 
-### Evaluate results: 
-Do the models meet the business success criteria? Which one(s) should we approve for the business?
-### Review process: 
-Review the work accomplished. Was anything overlooked? Were all steps properly executed? Summarize findings and correct anything if needed.
+The report also looked at the use of the video materials looking for a correlation between video length and total views.  There was no clear relationship between video length and total views.  The year on year trends were almost identical with certain videos being watched far more than others.  This was supported when looking at which videos were being watched for 100% of the duration.  What is clear is that certain videos are receiving more views than others and that this isn't linked to duration.  Further investigation would be required to find out certain videos are being viewed more and for longer than others.  This would allow the university to improve the quality of its content and ensure that the all the video material being put online is getting a higher number of viewing figures.
 
-### Determine next steps: 
-Based on the previous three tasks, determine whether to proceed to deployment, iterate further, or initiate new projects.
+It would also be advantages to the university to look at links between the video footage and question responses. This would give the university an insight into the impact that each video is having on student attainment. This would give tangible evidence on the effectiveness of the video material.
 
 ## VI. Deployment
 
-“Depending on the requirements, the deployment phase can be as simple as generating a report or as complex as implementing a repeatable data mining process across the enterprise.”
-
-–CRISP-DM Guide
-
-A model is not particularly useful unless the customer can access its results. The complexity of this phase varies widely. This final phase has four tasks:
-
-### Plan deployment: 
-Develop and document a plan for deploying the model.
-
-### Plan monitoring and maintenance: 
-Develop a thorough monitoring and maintenance plan to avoid issues during the operational phase (or post-project phase) of a model.
-
-### Produce final report: 
-The project team documents a summary of the project which might include a final presentation of data mining results.
-
-### Review project: 
-Conduct a project retrospective about what went well, what could have been better, and how to improve in the future.
+The analysis is reproducible, new course data could be loaded to the directory and ran through the project again.  This would be reliant on the new data following the same name format as previous files.  Cyber.security.8_video_stats for example would follow the same format as previous video files allowing any previous coding to be added using a pipeline.  

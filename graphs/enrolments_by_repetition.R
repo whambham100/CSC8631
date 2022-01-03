@@ -1,5 +1,6 @@
-ggplot(combined_enrolments, aes(x=rep, fill=rep))+
-  geom_bar(fill = "steelblue")+
-  theme_grey()+
-  ggtitle("Number of enrolments by repetition")
-  
+ggplot(learnerids_allwithpercentages, label = "count")+
+  geom_line(aes(x = factor(rep), y = n), colour="red", group = 1,)+
+  geom_point(aes(x = factor(rep), y = n,))+
+  geom_text(aes(x = factor(rep), y = n, label = paste0(round(n,4),"")), size=3, vjust = 1.5)+
+  labs(x = "Repetition of Course", y = "Total Number of Enrolments", title = "Number of Students Enrolled on Course per Repetition")+
+  theme_minimal()

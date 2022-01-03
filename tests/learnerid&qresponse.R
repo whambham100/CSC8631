@@ -1,0 +1,2 @@
+Learnerid_Qresponse = merge(combined_enrolments,qresponse_all)
+  close_Learnerid_qresponse = select(Learnerid_Qresponse, learner_id, rep, gender, age_range, highest_education_level, employment_status, employment_area, detected_country, correct)
